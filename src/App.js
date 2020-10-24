@@ -1,25 +1,44 @@
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: null
+    };
+
+    this.handleUpload = this.handleUpload.bind(this);
+  }
+
+  componentDidMount() {
+    // Call our fetch function below once the component mounts
+    
+  }
+
+  async upload() {
+    const response = await fetch('/upload');
+    const body = await response.json();
+
+    if (response.status !== 200) {
+      throw Error(body.message) 
+    }
+    return body.message;
+  };
+
+  handleUpload(event) {
+    let photo = event.target.files[0];
+  };
+
+  render() {
+    return (
+      <div className="App">
+        <form>
+          <input type="file" id="newPhoto" onChange={this.handleUpload}/> 
+        </form>
+      </div>
+    );
+  }
 }
 
 export default App;
